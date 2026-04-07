@@ -1,30 +1,65 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+'use strict'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const path = require('path')
+const autoprefixer = require('autoprefixer')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-export default {
-    mode: "development",
-    entry: './src/index.js',
+module.exports = {
+    mode: 'development',
+    entry: './src/js/main.js',
     output: {
-        filename: 'bundle.js',
+        filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        clean: true
+    },
+    devServer:{
+        static: path.resolve(__dirname, 'dist'),
+        port: 8080,
+        hot: true
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Custom Template',
-            template: './src/index.html'
-        }),
+        new HtmlWebpackPlugin({ template: './src/index.html' })
     ],
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-        ],
-    },
-};
+                test: /\.(scss)$/,
+                use: [
+                    {
+                        // Adds CSS to the DOM by injecting a `<style>` tag
+                        loader: 'style-loader'
+                    },
+                    {
+                        // Interprets `@import` and `url()` like `import/require()` and will resolve them
+                        loader: 'css-loader'
+                    },
+                    {
+                        // Loader for webpack to process CSS with PostCSS
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    autoprefixer
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        // Loads a SASS/SCSS file and compiles it to CSS
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                // Silence Sass deprecation warnings
+                                silenceDeprecations: [
+                                    'color-functions',
+                                    'global-builtin',
+                                    'import',
+                                    'if-function',
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
