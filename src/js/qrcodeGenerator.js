@@ -1,7 +1,7 @@
 import QRCode from 'qrcode';
 
 function _error(e) {
-    if (error) console.error(error)
+    if (e) console.error(e)
     console.log('success!');
 }
 

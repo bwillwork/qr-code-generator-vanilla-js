@@ -10,6 +10,13 @@
   <header class="d-flex justify-content-center align-items-md-center pb-3 mb-5 border-bottom border-dark">
     <h1 class="h1">QR Code Generator</h1>
   </header>
+  <div class="row pb-3 mb-5">
+    <div class="col d-flex flex-column align-items-center justify-content-center">
+      <canvas id="qr-code-canvas" class="d-none"></canvas>
+      <p id="no-data-message">Please fill in all the required fields to generate the QR Code</p>
+      <button id="download-btn" class="disabled btn btn-primary border border-dark custom-width mt-4">Download</button>
+    </div>
+  </div>
   <ul class="nav nav-underline justify-content-center" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <button class="nav-link active w-100" id="link-tab" data-bs-toggle="tab" data-bs-target="#link-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
@@ -43,17 +50,15 @@
     <div class="tab-pane fade show active justify-content-center" id="link-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
       <div class="d-flex flex-column justify-content-around align-items-center">
-        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
-          <canvas id="link-canvas" width="200px" height="200px"></canvas>
-        </div>
         <div class="custom-width mt-4 custom-height">
-          <div class="input-group">
+          <div class="mb-3">
+            <label class="form-label" for="link-input">Link: </label>
             <input id="link-input"
                    type="url"
                    class="form-control"
                    aria-label="Link input for QR Code"
                    placeholder="https://example.com"
-                   pattern="https://.*"
+                   pattern="http(s?)(:\/\/)(.*)"
             />
           </div>
         </div>
@@ -65,12 +70,13 @@
     <div class="tab-pane fade justify-content-center" id="text-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
       <div class="d-flex flex-column justify-content-around align-items-center">
-        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
-          <canvas id="text-canvas" width="200px" height="200px"></canvas>
-        </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <textarea id="text-input" class="form-control" aria-label="Text area for QR Code"></textarea>
+            <label class="form-label" for="text-input">Text: </label>
+            <textarea id="text-input"
+                      class="form-control"
+                      aria-label="Text area for QR Code"
+                      placeholder="Some text..."></textarea>
           </div>
         </div>
       </div>
@@ -81,12 +87,33 @@
     <div class="tab-pane fade justify-content-center" id="email-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
       <div class="d-flex flex-column justify-content-around align-items-center">
-        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
-          <canvas id="email-canvas" width="200px" height="200px"></canvas>
-        </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <input type="email" class="form-control" aria-label="Text input with dropdown button">
+            <label class="form-label" for="email-to-input">To: </label>
+            <input id="email-to-input"
+                   type="email"
+                   class="form-control"
+                   aria-label="Email input for QR Code"
+                   placeholder="handle@example.com"
+                   pattern="(.*)@(.*).(.*)"
+            />
+          </div>
+          <div class="input-group">
+            <label class="form-label" for="email-subject-input">Subject: </label>
+            <input id="email-subject-input"
+                   type="email"
+                   class="form-control"
+                   aria-label="Email input for QR Code"
+                   placeholder="handle@example.com"
+                   pattern="(.*)@(.*).(.*)"
+            />
+          </div>
+          <div class="input-group">
+            <label class="form-label" for="email-subject-input">Body: </label>
+            <textarea id="email-body-input"
+                      class="form-control"
+                      aria-label="Text area for QR Code"
+                      placeholder="Some text..."></textarea>
           </div>
         </div>
       </div>
@@ -102,7 +129,10 @@
         </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            <input id="text-message-input"
+                   type="text"
+                   class="form-control"
+                   aria-label="Text input with dropdown button">
           </div>
         </div>
       </div>
