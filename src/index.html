@@ -10,8 +10,6 @@
   <header class="d-flex justify-content-center align-items-md-center pb-3 mb-5 border-bottom">
     <h1 class="h1">QR Code Generator</h1>
   </header>
-
-
   <ul class="nav nav-underline justify-content-center" id="myTab" role="tablist">
     <li class="nav-item w-md-25" role="presentation">
       <button class="nav-link active w-100" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
@@ -25,31 +23,38 @@
     </li>
   </ul>
   <div class="tab-content mt-4" id="myTabContent">
+
     <!-- QR Code Generation -->
     <div class="tab-pane fade show active justify-content-center" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
       <div class="d-flex flex-column justify-content-around align-items-center">
-        <small>Click the QR Code to save it</small>
-        <div class="d-flex justify-content-center w-md-75" style="min-height: 35vh">
-          <canvas class="border border-dark border-1" width="200px" height="200px"></canvas>
+
+        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
+          <canvas class="" width="200px" height="200px"></canvas>
         </div>
-        <div class="input-group w-md-75 mt-4">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Content Type</button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item">Action</button></li>
-            <li><button class="dropdown-item">Another action</button></li>
-            <li><button class="dropdown-item">Something else here</button></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><button class="dropdown-item">Separated link</button></li>
-          </ul>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+        <div class="custom-width mt-4 custom-height">
+          <div class="input-group">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Content Type</button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item">Action</button></li>
+              <li><button class="dropdown-item">Another action</button></li>
+              <li><button class="dropdown-item">Something else here</button></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item">Separated link</button></li>
+            </ul>
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
         </div>
       </div>
 
     </div>
+
+    <!-- Read QR Code -->
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-      <!-- Read QR Code -->
+
 
     </div>
+
   </div>
 
 </div>

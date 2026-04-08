@@ -79,3 +79,11 @@ $sizes: ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, );
     }
   }
 }
+
+.custom-height {
+  min-height: 35vh;
+}
+
+.custom-width {
+  min-width: 45vw;
+}
