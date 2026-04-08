@@ -6,11 +6,11 @@ import DOM from './dom';
 import { Popover } from 'bootstrap';
 
 function init() {
-    // Create popover
-    DOM.elms('[data-bs-toggle="popover"]')
-        .forEach(popover => {
-            new Popover(popover)
-        })
+    // Create popovers (bootstrap)
+    const popovers = DOM.elms('[data-bs-toggle="popover"]');
+    popovers.forEach(popover => (new Popover(popover)));
+
+
 }
 
 

@@ -1,14 +1,19 @@
 import QRCode from 'qrcode';
 
-function generate(canvas) {
-
+function _error(e) {
+    if (error) console.error(error)
+    console.log('success!');
 }
 
-function read() {
+function generate(canvas, text) {
+    QRCode.toCanvas(canvas, text, _error);
+}
 
+function produceImage(text) {
+    QRCode.toDataURL(text,)
 }
 
 export default {
     generate,
-    read
+    produceImage
 };

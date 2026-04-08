@@ -12,36 +12,42 @@
   </header>
   <ul class="nav nav-underline justify-content-center" id="myTab" role="tablist">
     <li class="nav-item w-md-25" role="presentation">
-      <button class="nav-link active w-100" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-        Generate QR Code
+      <button class="nav-link active w-100" id="link-tab" data-bs-toggle="tab" data-bs-target="#link-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+        Link
       </button>
     </li>
     <li class="nav-item w-md-25" role="presentation">
-      <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-        Read QR Code
+      <button class="nav-link w-100" id="text-tab" data-bs-toggle="tab" data-bs-target="#text-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        Text
+      </button>
+    </li>
+    <li class="nav-item w-md-25" role="presentation">
+      <button class="nav-link w-100" id="email-tab" data-bs-toggle="tab" data-bs-target="#email-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        Email
+      </button>
+    </li>
+    <li class="nav-item w-md-25" role="presentation">
+      <button class="nav-link w-100" id="text-message-tab" data-bs-toggle="tab" data-bs-target="#text-message-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        Text Message
+      </button>
+    </li>
+    <li class="nav-item w-md-25" role="presentation">
+      <button class="nav-link w-100" id="wifi-tab" data-bs-toggle="tab" data-bs-target="#wifi-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+        Wifi
       </button>
     </li>
   </ul>
   <div class="tab-content mt-4" id="myTabContent">
 
-    <!-- QR Code Generation -->
-    <div class="tab-pane fade show active justify-content-center" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <!-- Link -->
+    <div class="tab-pane fade show active justify-content-center" id="link-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
       <div class="d-flex flex-column justify-content-around align-items-center">
-
         <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
-          <canvas class="" width="200px" height="200px"></canvas>
+          <canvas id="link-canvas" width="200px" height="200px"></canvas>
         </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Content Type</button>
-            <ul class="dropdown-menu">
-              <li><button class="dropdown-item">Action</button></li>
-              <li><button class="dropdown-item">Another action</button></li>
-              <li><button class="dropdown-item">Something else here</button></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item">Separated link</button></li>
-            </ul>
             <input type="text" class="form-control" aria-label="Text input with dropdown button">
           </div>
         </div>
@@ -49,9 +55,67 @@
 
     </div>
 
-    <!-- Read QR Code -->
-    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+    <!-- Text -->
+    <div class="tab-pane fade show active justify-content-center" id="text-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
+      <div class="d-flex flex-column justify-content-around align-items-center">
+        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
+          <canvas id="text-canvas" width="200px" height="200px"></canvas>
+        </div>
+        <div class="custom-width mt-4 custom-height">
+          <div class="input-group">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Email -->
+    <div class="tab-pane fade show active justify-content-center" id="email-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+      <div class="d-flex flex-column justify-content-around align-items-center">
+        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
+          <canvas id="email-canvas" width="200px" height="200px"></canvas>
+        </div>
+        <div class="custom-width mt-4 custom-height">
+          <div class="input-group">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Text Message -->
+    <div class="tab-pane fade show active justify-content-center" id="text-message-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+      <div class="d-flex flex-column justify-content-around align-items-center">
+        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
+          <canvas id="text-message-canvas" width="200px" height="200px"></canvas>
+        </div>
+        <div class="custom-width mt-4 custom-height">
+          <div class="input-group">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Wifi -->
+    <div class="tab-pane fade show active justify-content-center" id="wifi-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+      <div class="d-flex flex-column justify-content-around align-items-center">
+        <div class="d-flex justify-content-center custom-width custom-height border border-dark border-1">
+          <canvas id="wifi-canvas" width="200px" height="200px"></canvas>
+        </div>
+        <div class="custom-width mt-4 custom-height">
+          <div class="input-group">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
+        </div>
+      </div>
 
     </div>
 
