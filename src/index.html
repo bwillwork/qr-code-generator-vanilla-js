@@ -48,7 +48,13 @@
         </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            <input id="link-input"
+                   type="url"
+                   class="form-control"
+                   aria-label="Link input for QR Code"
+                   placeholder="https://example.com"
+                   pattern="https://.*"
+            />
           </div>
         </div>
       </div>
@@ -64,7 +70,7 @@
         </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            <textarea id="text-input" class="form-control" aria-label="Text area for QR Code"></textarea>
           </div>
         </div>
       </div>
@@ -80,7 +86,7 @@
         </div>
         <div class="custom-width mt-4 custom-height">
           <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+            <input type="email" class="form-control" aria-label="Text input with dropdown button">
           </div>
         </div>
       </div>
