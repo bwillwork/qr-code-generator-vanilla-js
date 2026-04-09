@@ -7,45 +7,28 @@ import generator from './qrcodeGenerator';
 // Import only the Bootstrap components we need
 import { Popover } from 'bootstrap';
 import tab from "bootstrap/js/src/tab";
+import {disableQRCodeControls, enableQRCodeControls} from "./ui";
+import {filled, valid} from "./input";
+import {buildCache} from "./cache";
+import {tabIdMap} from "./constants";
 
 (function init() {
 
-    function valid(elm) {
-        let isValid = false;
-        if(elm.matches(':valid')) isValid = true;
-        if(elm.matches(':invalid')) isValid = false;
-        return isValid;
-    }
-
-    function filled(elm) {
-        let isFilled = false;
-        if(linkInput.value) isFilled = true;
-        return isFilled
-    }
-
-    function enableQRCodeControls() {
-        downloadBtn.classList.remove('disabled');
-        noDataMessage.classList.add('d-none');
-        canvas.classList.remove('d-none');
-    }
-
-    function disableQRCodeControls() {
-        downloadBtn.classList.add('disabled');
-        noDataMessage.classList.remove('d-none');
-        canvas.classList.add('d-none');
-    }
-
     function generateLinkQRCode() {
-        if(_.isEqual(_.get(cache,['tabs','link-tab','active']), true)) {
-            _.set(cache,['data','link','value'], linkInput.value);// Update cache
+        const isActive = _cache.isTabActive(tabIdMap.link);
+        if(isActive) {
+            //_.set(cache,['data','link','value'], linkInput.value);// Update cache
+            _cache.updateLink({value: linkInput.value});
             if(filled(linkInput) && valid(linkInput)) {
-                enableQRCodeControls();
+                enableQRCodeControls({downloadBtn,noDataMessage,canvas});
                 generator.generate(canvas, linkInput.value);
             } else {
-                disableQRCodeControls();
+                disableQRCodeControls({downloadBtn,noDataMessage,canvas});
             }
         }
     }
+
+    const _cache = buildCache();
 
     const cache = {
         tabs: {
@@ -67,6 +50,7 @@ import tab from "bootstrap/js/src/tab";
         },
         data: {
             link: {
+                input: DOM.elm(`#link-input`),
                 value: ''
             },
             text: {
@@ -92,39 +76,33 @@ import tab from "bootstrap/js/src/tab";
     const tabEls = DOM.elms('button[data-bs-toggle="tab"]');
     const active = tabEls.find(elm => elm.classList.contains('active'));
     const activeId = active.getAttribute('id');
-    _.set(cache,['tabs',activeId,'active'], true);
+    //_.set(cache,['tabs',activeId,'active'], true);
+
+    _cache.updateActiveTab(activeId);
 
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');
             const previousId = event.relatedTarget.getAttribute('id');
-            _.set(cache,['tabs',activeId,'active'], true);
-            _.set(cache,['tabs',previousId,'active'], false);
+            _cache.updateActiveTab(activeId,previousId);
             console.log('cache: ',cache);
             //console.log(active.getAttribute('id'),active.getAttribute('data-bs-target'));
+            const tabData = _cache.fetchTab(activeId);
+
         })
     });
 
     const canvas = DOM.elm(`#qr-code-canvas`)
     const noDataMessage = DOM.elm(`#no-data-message`);
     const downloadBtn = DOM.elm(`#download-btn`);
+
     const linkInput = DOM.elm(`#link-input`);
-    _.set(cache,['data','link','value'], linkInput.value);// Init cache value
+    _cache.updateLink({value: linkInput.value});
+    // _.set(cache,['data','link','value'], linkInput.value);// Init cache value
+    // _.set(cache,['data','link','input'], linkInput);
     generateLinkQRCode();
     linkInput.addEventListener('keyup', () => {
-        /*
-        if(_.isEqual(_.get(cache,['tabs','link-tab','active']), true)) {
-            _.set(cache,['data','link','value'], linkInput.value);// Update cache
-            if(filled(linkInput) && valid(linkInput)) {
-                downloadBtn.classList.remove('disabled');
-                noDataMessage.classList.add('d-none');
-                canvas.classList.remove('d-none');
-                generator.generate(canvas, linkInput.value);
-            }
-        }
-         */
         generateLinkQRCode();
-
     });
 
 
