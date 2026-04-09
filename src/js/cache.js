@@ -1,4 +1,5 @@
 import _ from "lodash";
+import DOM from "./dom";
 
 export function buildCache() {
     // Init
@@ -103,6 +104,48 @@ export function buildCache() {
         fetchEmail,
         fetchTextMessage,
         fetchWifi
+    };
+
+}
+
+
+export function buildElementCache(selectors) {
+
+    const reverseSelectorKeyMap = {};
+    for(let key in selectors) {
+        const value = selectors[key];
+        reverseSelectorKeyMap[value] = key;
+    }
+
+    const cache = {};
+    for(let selector of selectors) {
+        cache[selector] = DOM.elms(selector);
+    }
+
+    function get(key) {
+        const selector = selectors[key];
+        return cache[selector];
+    }
+
+    function update(elm,key) {
+        const selector = selectors[key];
+        cache[selector] = DOM.elms(selector);// Update cache
+        return cache[selector];
+    }
+
+    function getSelector(key) {
+        return selectors[key];
+    }
+
+    function getKeyFromSelector(selector) {
+        return reverseSelectorKeyMap[selector];
+    }
+
+    return {
+        get,
+        update,
+        getSelector,
+        getKeyFromSelector
     };
 
 }
