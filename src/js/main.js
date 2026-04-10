@@ -9,28 +9,12 @@ import {disable, enable, hide, show} from "./ui";
 import {filled, valid} from "./input";
 import {buildElementCache} from "./cache";
 import {selectors, tabIdMap} from "./constants";
+import {choose, ifElse, isActiveAndValid} from './builders';
 
 (function init() {
 
 
     const elmCache = buildElementCache(selectors);
-
-    function ifElse(conditionFunc, ifFunc, elseFunc) {
-        return function(...values) {
-            if(conditionFunc(...values)) return ifFunc(...values);
-            else elseFunc(...values);
-        };
-    }
-
-    function choose(conditionFunc,...choices) {
-        return function(condition) {
-            for(let choice of choices) {
-                const {key, execFunc} = choice;
-                if(conditionFunc(condition,key)) return execFunc();
-            }
-            return null;
-        };
-    }
 
     function enableQRCodeControls(elmCache) {
         const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
@@ -50,19 +34,10 @@ import {selectors, tabIdMap} from "./constants";
         hide(canvas);
     }
 
-
     function isTabActive(elmCache,id) {
         const tabs = elmCache.getElementFromSelector(selectors.allTabs);
         const activeTab = tabs.find(t => t.classList.contains('active'));
         return _.isEqual(activeTab.id, id);
-    }
-
-    function isActiveAndValid(elmCache,id,isTabActiveFunc,isValidFunc) {
-        return function(currentTabId,...dataElementIds) {
-            const isActive = isTabActiveFunc(elmCache,currentTabId);
-            const isValid = isValidFunc(elmCache,...dataElementIds);
-            return isActive && isValid;
-        };
     }
 
     function linkIsValid(elmCache,linkSelector) {
