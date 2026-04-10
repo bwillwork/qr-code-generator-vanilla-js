@@ -15,15 +15,4 @@ export function enable(elm) {
     elm.classList.remove('disabled');
 }
 
-export function enableQRCodeControls({downloadBtn,noDataMessage,canvas}) {
-    enable(downloadBtn);
-    hide(noDataMessage);
-    show(canvas);
-}
-
-export function disableQRCodeControls({downloadBtn,noDataMessage,canvas}) {
-    disable(downloadBtn);
-    show(noDataMessage);
-    hide(canvas);
-}
 

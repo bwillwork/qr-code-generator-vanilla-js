@@ -5,7 +5,7 @@ import generator from './qrcodeGenerator';
 
 // Import only the Bootstrap components we need
 import {Popover} from 'bootstrap';
-import {disableQRCodeControls, enableQRCodeControls} from "./ui";
+import {disable, enable, hide, show} from "./ui";
 import {filled, valid} from "./input";
 import {buildElementCache} from "./cache";
 import {selectors, tabIdMap} from "./constants";
@@ -15,9 +15,7 @@ import {selectors, tabIdMap} from "./constants";
 
     const elmCache = buildElementCache(selectors);
 
-
-
-    function fork(conditionFunc, ifFunc, elseFunc) {
+    function ifElse(conditionFunc, ifFunc, elseFunc) {
         return function(...values) {
             if(conditionFunc(...values)) return ifFunc(...values);
             else elseFunc(...values);
@@ -33,6 +31,25 @@ import {selectors, tabIdMap} from "./constants";
             return null;
         };
     }
+
+    function enableQRCodeControls(elmCache) {
+        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
+        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
+        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+        enable(downloadBtn);
+        hide(noDataMessage);
+        show(canvas);
+    }
+
+    function disableQRCodeControls(elmCache) {
+        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
+        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
+        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+        disable(downloadBtn);
+        show(noDataMessage);
+        hide(canvas);
+    }
+
 
     function isTabActive(elmCache,id) {
         const tabs = elmCache.getElementFromSelector(selectors.allTabs);
@@ -52,46 +69,44 @@ import {selectors, tabIdMap} from "./constants";
         const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
         return filled(linkInput) && valid(linkInput)
     }
-    const linkIsValidAndActiveFunc = isActiveAndValid(
-        elmCache,
-        tabIdMap.link,
-        isTabActive,
-        linkIsValid);
-
-    const linkGeneratorFunc = fork(
+    const linkIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.link, isTabActive, linkIsValid);
+    const linkGeneratorFunc = ifElse(
         (elmCache,linkSelector,tabId) => linkIsValidAndActiveFunc(tabId,linkSelector),
         function(elmCache,linkSelector) {
-            const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
-            const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
-            const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
+            enableQRCodeControls(elmCache);
             const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-
-            enableQRCodeControls({downloadBtn,noDataMessage,canvas});
+            const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
             generator.generate(canvas, linkInput.value);
         },
         function(elmCache) {
-            const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
-            const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-            disableQRCodeControls({downloadBtn,noDataMessage,canvas});
+            disableQRCodeControls(elmCache);
         });
 
-    function generateLinkQRCode(elmCache) {
-        const isActive = isTabActive(elmCache,tabIdMap.link);
-        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
-        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
-        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-        if(isActive) {
-            if(filled(linkInput) && valid(linkInput)) {
-                enableQRCodeControls({downloadBtn,noDataMessage,canvas});
-                generator.generate(canvas, linkInput.value);
-            } else {
-                disableQRCodeControls({downloadBtn,noDataMessage,canvas});
-            }
-        }
+    function isTextValid(elmCache,textSelector) {
+        const textInput = elmCache.getElementFromSelector(textSelector)[0];
+        return filled(textInput);
     }
+    const textIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.text, isTabActive, isTextValid);
+    const textGeneratorFunc = ifElse(
+        (elmCache,textSelector,tabId) => textIsValidAndActiveFunc(tabId,textSelector),
+        function(elmCache,textSelector) {
+            enableQRCodeControls(elmCache);
+            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+            const textInput = elmCache.getElementFromSelector(textSelector)[0];
+            generator.generate(canvas, textInput.value);
+        },
+        function(elmCache) {
+            disableQRCodeControls(elmCache);
+        });
 
 
+    function condition(key1,key2) {
+        return _.isEqual(key1,key2);
+    }
+    const chooseGenerationFunc = choose(condition,
+        {key: tabIdMap.link, execFunc: () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link)},
+        {key: tabIdMap.text, execFunc: () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text)},
+    );
 
 
     // Create popovers (bootstrap)
@@ -105,7 +120,7 @@ import {selectors, tabIdMap} from "./constants";
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');
             const previousId = event.relatedTarget.getAttribute('id');
-
+            chooseGenerationFunc(activeId);
         });
     });
 
@@ -113,6 +128,10 @@ import {selectors, tabIdMap} from "./constants";
     const linkInput = elmCache.getElementFromSelector(selectors.link)[0];//DOM.elm(`#link-input`);
     linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link);
     linkInput.addEventListener('keyup', () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link));
+
+    const textInput = elmCache.getElementFromSelector(selectors.text)[0];//DOM.elm(`#link-input`);
+    textGeneratorFunc(elmCache, selectors.text, tabIdMap.text);
+    textInput.addEventListener('keyup', () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text));
 
 
 })();
