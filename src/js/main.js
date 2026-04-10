@@ -9,16 +9,23 @@ import { Popover } from 'bootstrap';
 import tab from "bootstrap/js/src/tab";
 import {disableQRCodeControls, enableQRCodeControls} from "./ui";
 import {filled, valid} from "./input";
-import {buildCache} from "./cache";
-import {tabIdMap} from "./constants";
+import {buildElementCache} from "./cache";
+import {tabIdMap, selectors, selectorFromId} from "./constants";
 
 (function init() {
 
-    function generateLinkQRCode() {
-        const isActive = _cache.isTabActive(tabIdMap.link);
+    function isTabActive(elmCache,id) {
+        const tabs = elmCache.getElementFromSelector(selectors.allTabs);
+        const activeTab = tabs.find(t => t.classList.contains('active'));
+        return _.isEqual(activeTab.id, id);
+    }
+
+    function generateLinkQRCode(elmCache) {
+        const isActive = isTabActive(elmCache,tabIdMap.link);
+        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
+        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
+        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
         if(isActive) {
-            //_.set(cache,['data','link','value'], linkInput.value);// Update cache
-            _cache.updateLink({value: linkInput.value});
             if(filled(linkInput) && valid(linkInput)) {
                 enableQRCodeControls({downloadBtn,noDataMessage,canvas});
                 generator.generate(canvas, linkInput.value);
@@ -28,82 +35,28 @@ import {tabIdMap} from "./constants";
         }
     }
 
-    const _cache = buildCache();
 
-    const cache = {
-        tabs: {
-            "link-tab": {
-                active: false,
-            },
-            "text-tab": {
-                active: false,
-            },
-            "email-tab": {
-                active: false,
-            },
-            "text-message-tab": {
-                active: false,
-            },
-            "wifi-tab": {
-                active: false,
-            }
-        },
-        data: {
-            link: {
-                input: DOM.elm(`#link-input`),
-                value: ''
-            },
-            text: {
-                value: ''
-            },
-            email: {
-                value: ''
-            },
-            text_message: {
-                value: ''
-            },
-            wifi: {
-                value: ''
-            },
-        }
-    };
+    const elmCache = buildElementCache(selectors);
 
     // Create popovers (bootstrap)
-    const popovers = DOM.elms('[data-bs-toggle="popover"]');
+    const popovers = elmCache.getElementFromSelector(selectors.popovers);
+    console.log(popovers);
     popovers.forEach(popover => (new Popover(popover)));
 
     // Init Tab Cache
-    const tabEls = DOM.elms('button[data-bs-toggle="tab"]');
-    const active = tabEls.find(elm => elm.classList.contains('active'));
-    const activeId = active.getAttribute('id');
-    //_.set(cache,['tabs',activeId,'active'], true);
-
-    _cache.updateActiveTab(activeId);
-
+    const tabEls = elmCache.getElementFromSelector(selectors.allTabs);
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');
             const previousId = event.relatedTarget.getAttribute('id');
-            _cache.updateActiveTab(activeId,previousId);
-            console.log('cache: ',cache);
-            //console.log(active.getAttribute('id'),active.getAttribute('data-bs-target'));
-            const tabData = _cache.fetchTab(activeId);
 
         })
     });
 
-    const canvas = DOM.elm(`#qr-code-canvas`)
-    const noDataMessage = DOM.elm(`#no-data-message`);
-    const downloadBtn = DOM.elm(`#download-btn`);
 
-    const linkInput = DOM.elm(`#link-input`);
-    _cache.updateLink({value: linkInput.value});
-    // _.set(cache,['data','link','value'], linkInput.value);// Init cache value
-    // _.set(cache,['data','link','input'], linkInput);
-    generateLinkQRCode();
-    linkInput.addEventListener('keyup', () => {
-        generateLinkQRCode();
-    });
+    const linkInput = elmCache.getElementFromSelector(selectors.link)[0];//DOM.elm(`#link-input`);
+    generateLinkQRCode(elmCache);
+    linkInput.addEventListener('keyup', () => generateLinkQRCode(elmCache));
 
 
 })();

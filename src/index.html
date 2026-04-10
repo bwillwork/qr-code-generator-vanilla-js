@@ -71,7 +71,7 @@
 
       <div class="d-flex flex-column justify-content-around align-items-center">
         <div class="custom-width mt-4 custom-height">
-          <div class="input-group">
+          <div class="mb-3">
             <label class="form-label" for="text-input">Text: </label>
             <textarea id="text-input"
                       class="form-control"
@@ -88,7 +88,7 @@
 
       <div class="d-flex flex-column justify-content-around align-items-center">
         <div class="custom-width mt-4 custom-height">
-          <div class="input-group">
+          <div class="mb-3">
             <label class="form-label" for="email-to-input">To: </label>
             <input id="email-to-input"
                    type="email"
@@ -98,7 +98,7 @@
                    pattern="(.*)@(.*).(.*)"
             />
           </div>
-          <div class="input-group">
+          <div class="mb-3">
             <label class="form-label" for="email-subject-input">Subject: </label>
             <input id="email-subject-input"
                    type="email"
@@ -108,8 +108,8 @@
                    pattern="(.*)@(.*).(.*)"
             />
           </div>
-          <div class="input-group">
-            <label class="form-label" for="email-subject-input">Body: </label>
+          <div class="mb-3">
+            <label class="form-label" for="email-body-input">Body: </label>
             <textarea id="email-body-input"
                       class="form-control"
                       aria-label="Text area for QR Code"
@@ -125,11 +125,18 @@
 
       <div class="d-flex flex-column justify-content-around align-items-center">
         <div class="custom-width mt-4 custom-height">
-          <div class="input-group">
-            <input id="text-message-input"
+          <div class="mb-3">
+            <label class="form-label" for="text-message-phone-input">Phone: </label>
+            <input id="text-message-phone-input"
                    type="text"
                    class="form-control"
-                   aria-label="Text input with dropdown button">
+                   aria-label="Phone number">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="text-message-body-input">Body: </label>
+            <textarea id="text-message-body-input"
+                   class="form-control"
+                      aria-label="Text message body"></textarea>
           </div>
         </div>
       </div>
@@ -141,8 +148,19 @@
 
       <div class="d-flex flex-column justify-content-around align-items-center">
         <div class="custom-width mt-4 custom-height">
-          <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <div class="mb-3">
+            <label class="form-label" for="wifi-ssid-input">SSID: </label>
+            <input id="wifi-ssid-input"
+                   type="text"
+                   class="form-control"
+                   aria-label="SSID for Network">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="wifi-password-input">Password: </label>
+            <input id="wifi-password-input"
+                   type="text"
+                   class="form-control"
+                   aria-label="Phone number">
           </div>
         </div>
       </div>
