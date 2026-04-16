@@ -9,6 +9,7 @@ import {selectors, tabIdMap} from "./constants";
 import {choose} from './builders';
 import {buildLinkGeneratorFunc} from "./features/link";
 import {buildTextGeneratorFunc} from "./features/text";
+import {buildEmailGeneratorFunc} from "./features/email";
 
 (function init() {
 
@@ -16,13 +17,19 @@ import {buildTextGeneratorFunc} from "./features/text";
     const elmCache = buildElementCache(selectors);
     const linkGeneratorFunc = buildLinkGeneratorFunc(elmCache);
     const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
+    const emailGeneratorFunc = buildEmailGeneratorFunc(elmCache);
 
     function condition(key1,key2) {
         return _.isEqual(key1,key2);
     }
+    const to = selectors.emailTo;
+    const subject = selectors.emailSubject;
+    const body = selectors.emailBody;
+
     const chooseGenerationFunc = choose(condition,
         {key: tabIdMap.link, execFunc: () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link)},
         {key: tabIdMap.text, execFunc: () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text)},
+        {key: tabIdMap.email, execFunc: () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email)},
     );
 
 
@@ -41,14 +48,24 @@ import {buildTextGeneratorFunc} from "./features/text";
         });
     });
 
-
-    const linkInput = elmCache.getElementFromSelector(selectors.link)[0];//DOM.elm(`#link-input`);
+    // Init Link Event Hooks
+    const linkInput = elmCache.getElementFromSelector(selectors.link)[0];
     linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link);
     linkInput.addEventListener('keyup', () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link));
 
-    const textInput = elmCache.getElementFromSelector(selectors.text)[0];//DOM.elm(`#link-input`);
+    // Init Text Event Hooks
+    const textInput = elmCache.getElementFromSelector(selectors.text)[0];
     textGeneratorFunc(elmCache, selectors.text, tabIdMap.text);
     textInput.addEventListener('keyup', () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text));
+
+    // Init Email Event Hooks
+    const toInput = elmCache.getElementFromSelector(to)[0];
+    const subjectInput = elmCache.getElementFromSelector(subject)[0];
+    const bodyInput = elmCache.getElementFromSelector(body)[0];
+    emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email);
+    toInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
+    subjectInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
+    bodyInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
 
 
 })();
