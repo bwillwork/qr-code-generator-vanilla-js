@@ -65,14 +65,12 @@ import {buildWifiGeneratorFunc} from "./features/wifi";
 
     // Init Text Event Hooks
     const textInput = elmCache.getElementFromSelector(selectors.text)[0];
-    textGeneratorFunc(elmCache, selectors.text, tabIdMap.text);
     textInput.addEventListener('keyup', () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text));
 
     // Init Email Event Hooks
     const toInput = elmCache.getElementFromSelector(to)[0];
     const subjectInput = elmCache.getElementFromSelector(subject)[0];
     const bodyInput = elmCache.getElementFromSelector(body)[0];
-    emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email);
     toInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
     subjectInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
     bodyInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
@@ -80,14 +78,12 @@ import {buildWifiGeneratorFunc} from "./features/wifi";
     // Text Message Event Hooks
     const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
     const messageInput = elmCache.getElementFromSelector(message)[0];
-    textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage);
     phoneNumbersInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
     messageInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
 
     // Wifi Event Hooks
     const ssidInput = elmCache.getElementFromSelector(ssid)[0];
     const passwordInput = elmCache.getElementFromSelector(password)[0];
-    wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi)
     ssidInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
     passwordInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
 
