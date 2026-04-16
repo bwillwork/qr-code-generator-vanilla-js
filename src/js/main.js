@@ -1,79 +1,21 @@
 // Import our custom CSS
 import '../scss/styles.scss';
 import _ from 'lodash';
-import generator from './qrcodeGenerator';
 
 // Import only the Bootstrap components we need
 import {Popover} from 'bootstrap';
-import {disable, enable, hide, show} from "./ui";
-import {filled, valid} from "./input";
 import {buildElementCache} from "./cache";
 import {selectors, tabIdMap} from "./constants";
-import {choose, ifElse, isActiveAndValid} from './builders';
+import {choose} from './builders';
+import {buildLinkGeneratorFunc} from "./features/link";
+import {buildTextGeneratorFunc} from "./features/text";
 
 (function init() {
 
 
     const elmCache = buildElementCache(selectors);
-
-    function enableQRCodeControls(elmCache) {
-        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
-        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
-        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-        enable(downloadBtn);
-        hide(noDataMessage);
-        show(canvas);
-    }
-
-    function disableQRCodeControls(elmCache) {
-        const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
-        const noDataMessage = elmCache.getElementFromSelector(selectors.noDataMessage)[0];
-        const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-        disable(downloadBtn);
-        show(noDataMessage);
-        hide(canvas);
-    }
-
-    function isTabActive(elmCache,id) {
-        const tabs = elmCache.getElementFromSelector(selectors.allTabs);
-        const activeTab = tabs.find(t => t.classList.contains('active'));
-        return _.isEqual(activeTab.id, id);
-    }
-
-    function linkIsValid(elmCache,linkSelector) {
-        const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
-        return filled(linkInput) && valid(linkInput)
-    }
-    const linkIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.link, isTabActive, linkIsValid);
-    const linkGeneratorFunc = ifElse(
-        (elmCache,linkSelector,tabId) => linkIsValidAndActiveFunc(tabId,linkSelector),
-        function(elmCache,linkSelector) {
-            enableQRCodeControls(elmCache);
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-            const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
-            generator.generate(canvas, linkInput.value);
-        },
-        function(elmCache) {
-            disableQRCodeControls(elmCache);
-        });
-
-    function isTextValid(elmCache,textSelector) {
-        const textInput = elmCache.getElementFromSelector(textSelector)[0];
-        return filled(textInput);
-    }
-    const textIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.text, isTabActive, isTextValid);
-    const textGeneratorFunc = ifElse(
-        (elmCache,textSelector,tabId) => textIsValidAndActiveFunc(tabId,textSelector),
-        function(elmCache,textSelector) {
-            enableQRCodeControls(elmCache);
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
-            const textInput = elmCache.getElementFromSelector(textSelector)[0];
-            generator.generate(canvas, textInput.value);
-        },
-        function(elmCache) {
-            disableQRCodeControls(elmCache);
-        });
-
+    const linkGeneratorFunc = buildLinkGeneratorFunc(elmCache);
+    const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
 
     function condition(key1,key2) {
         return _.isEqual(key1,key2);
