@@ -5,7 +5,6 @@ let lastGeneratedText = ''
 
 function _error(e) {
     if (e) console.error(e)
-    console.log('success!');
 }
 
 function generate(canvas, text) {
