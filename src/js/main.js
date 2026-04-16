@@ -11,6 +11,7 @@ import {buildLinkGeneratorFunc} from "./features/link";
 import {buildTextGeneratorFunc} from "./features/text";
 import {buildEmailGeneratorFunc} from "./features/email";
 import {buildTextMessageGeneratorFunc} from "./features/textMessage";
+import {buildWifiGeneratorFunc} from "./features/wifi";
 
 (function init() {
 
@@ -20,6 +21,7 @@ import {buildTextMessageGeneratorFunc} from "./features/textMessage";
     const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
     const emailGeneratorFunc = buildEmailGeneratorFunc(elmCache);
     const textMessageGeneratorFunc = buildTextMessageGeneratorFunc(elmCache);
+    const wifiGeneratorFunc = buildWifiGeneratorFunc(elmCache);
 
     function condition(key1,key2) {
         return _.isEqual(key1,key2);
@@ -31,17 +33,20 @@ import {buildTextMessageGeneratorFunc} from "./features/textMessage";
     const phoneNumbers = selectors.textMessagePhone;
     const message = selectors.textMessageBody;
 
+    const ssid = selectors.wifiSSID;
+    const password = selectors.wifiPassword;
+
     const chooseGenerationFunc = choose(condition,
         {key: tabIdMap.link, execFunc: () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link)},
         {key: tabIdMap.text, execFunc: () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text)},
         {key: tabIdMap.email, execFunc: () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email)},
         {key: tabIdMap.textMessage, execFunc: () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage)},
+        {key: tabIdMap.wifi, execFunc: () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi)},
     );
 
 
     // Create popovers (bootstrap)
     const popovers = elmCache.getElementFromSelector(selectors.popovers);
-    console.log(popovers);
     popovers.forEach(popover => (new Popover(popover)));
 
     // Init Tab Cache
@@ -78,6 +83,13 @@ import {buildTextMessageGeneratorFunc} from "./features/textMessage";
     textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage);
     phoneNumbersInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
     messageInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
+
+    // Wifi Event Hooks
+    const ssidInput = elmCache.getElementFromSelector(ssid)[0];
+    const passwordInput = elmCache.getElementFromSelector(password)[0];
+    wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi)
+    ssidInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
+    passwordInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
 
 
 
