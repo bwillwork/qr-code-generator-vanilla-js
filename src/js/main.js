@@ -12,6 +12,9 @@ import {buildTextGeneratorFunc} from "./features/text";
 import {buildEmailGeneratorFunc} from "./features/email";
 import {buildTextMessageGeneratorFunc} from "./features/textMessage";
 import {buildWifiGeneratorFunc} from "./features/wifi";
+import generator from './qrcodeGenerator';
+import DOM from "./dom";
+import {disable, enable} from "./ui";
 
 (function init() {
 
@@ -87,6 +90,15 @@ import {buildWifiGeneratorFunc} from "./features/wifi";
     ssidInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
     passwordInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
 
-
+    // Download Button
+    const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
+    downloadBtn.addEventListener('click',function() {
+        disable(downloadBtn);
+        generator.produceImageUrl((url => {
+            DOM.createDownloadAnchor(url,'qrcode').click();
+        }),() => {
+            enable(downloadBtn);
+        });
+    });
 
 })();
