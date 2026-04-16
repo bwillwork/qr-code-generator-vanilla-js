@@ -33,7 +33,7 @@ export function buildTextMessageGeneratorFunc(elmCache) {
 
             //Ex: sms:<phone_number>?body=<message_text>
             const messageText = encodeURI(messageInput.value);
-            const link = `mailto:${phoneNumbersInput.value}?body=${messageText}`;
+            const link = `sms:${phoneNumbersInput.value}?body=${messageText}`;
             generator.generate(canvas, link);
         },
         function(elmCache) {
