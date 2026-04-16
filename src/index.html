@@ -129,12 +129,14 @@
             <input id="text-message-phone-input"
                    type="text"
                    class="form-control"
-                   aria-label="Phone number">
+                   aria-label="Phone number"
+                   placeholder="+1234567890,+0987654321,..."
+                   pattern="\+\d{10}(,\+\d{10})*">
           </div>
           <div class="mb-3">
             <label class="form-label" for="text-message-body-input">Body: </label>
             <textarea id="text-message-body-input"
-                   class="form-control"
+                      class="form-control"
                       aria-label="Text message body"></textarea>
           </div>
         </div>

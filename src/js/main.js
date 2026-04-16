@@ -10,6 +10,7 @@ import {choose} from './builders';
 import {buildLinkGeneratorFunc} from "./features/link";
 import {buildTextGeneratorFunc} from "./features/text";
 import {buildEmailGeneratorFunc} from "./features/email";
+import {buildTextMessageGeneratorFunc} from "./features/textMessage";
 
 (function init() {
 
@@ -18,6 +19,7 @@ import {buildEmailGeneratorFunc} from "./features/email";
     const linkGeneratorFunc = buildLinkGeneratorFunc(elmCache);
     const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
     const emailGeneratorFunc = buildEmailGeneratorFunc(elmCache);
+    const textMessageGeneratorFunc = buildTextMessageGeneratorFunc(elmCache);
 
     function condition(key1,key2) {
         return _.isEqual(key1,key2);
@@ -26,10 +28,14 @@ import {buildEmailGeneratorFunc} from "./features/email";
     const subject = selectors.emailSubject;
     const body = selectors.emailBody;
 
+    const phoneNumbers = selectors.textMessagePhone;
+    const message = selectors.textMessageBody;
+
     const chooseGenerationFunc = choose(condition,
         {key: tabIdMap.link, execFunc: () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link)},
         {key: tabIdMap.text, execFunc: () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text)},
         {key: tabIdMap.email, execFunc: () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email)},
+        {key: tabIdMap.textMessage, execFunc: () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage)},
     );
 
 
@@ -43,7 +49,6 @@ import {buildEmailGeneratorFunc} from "./features/email";
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');
-            const previousId = event.relatedTarget.getAttribute('id');
             chooseGenerationFunc(activeId);
         });
     });
@@ -66,6 +71,14 @@ import {buildEmailGeneratorFunc} from "./features/email";
     toInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
     subjectInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
     bodyInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
+
+    // Text Message Event Hooks
+    const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
+    const messageInput = elmCache.getElementFromSelector(message)[0];
+    textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage);
+    phoneNumbersInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
+    messageInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
+
 
 
 })();
