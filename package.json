@@ -5,7 +5,9 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack build --mode=production",
-    "test": "npm run build"
+    "test": "npm run build",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -23,6 +25,7 @@
     "style-loader": "^4.0.0",
     "webpack": "^5.105.4",
     "webpack-cli": "^7.0.2",
-    "webpack-dev-server": "^5.2.3"
+    "webpack-dev-server": "^5.2.3",
+    "wrangler": "^4.93.0"
   }
 }
