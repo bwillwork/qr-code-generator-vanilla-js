@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 // Import only the Bootstrap components we need
 import {Popover} from 'bootstrap';
+
 import {buildElementCache} from "./cache";
 import {selectors, tabIdMap} from "./constants";
 import {choose} from './builders';
@@ -20,6 +21,7 @@ import {disable, enable} from "./ui";
 
 
     const elmCache = buildElementCache(selectors);
+
     const linkGeneratorFunc = buildLinkGeneratorFunc(elmCache);
     const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
     const emailGeneratorFunc = buildEmailGeneratorFunc(elmCache);
@@ -52,7 +54,7 @@ import {disable, enable} from "./ui";
     const popovers = elmCache.getElementFromSelector(selectors.popovers);
     popovers.forEach(popover => (new Popover(popover)));
 
-    // Init Tab Cache
+    // Init Tabs
     const tabEls = elmCache.getElementFromSelector(selectors.allTabs);
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {

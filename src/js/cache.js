@@ -20,27 +20,16 @@ export function buildElementCache(selectors) {
         cache[selector] = DOM.elms(selector);
     }
 
-    //console.log('initData: ',initData,' | reverseSelectorKeyMap: ',reverseSelectorKeyMap, ' | cache: ', cache);
-
-    // Public
     function get(key) {
         const selector = selectors[key];
         return cache[selector];
     }
 
-    function update(elm,key) {
-        const selector = selectors[key];
-        cache[selector] = DOM.elms(selector);// Update cache
-        return cache[selector];
-    }
-
-    function getSelector(key) {
-        return selectors[key];
-    }
-
     function getKeyFromSelector(selector) {
         return reverseSelectorKeyMap[selector];
     }
+
+    // Public
 
     function getElementFromSelector(selector) {
         const key = getKeyFromSelector(selector);
@@ -48,10 +37,6 @@ export function buildElementCache(selectors) {
     }
 
     return {
-        get,
-        update,
-        getSelector,
-        getKeyFromSelector,
         getElementFromSelector
     };
 
