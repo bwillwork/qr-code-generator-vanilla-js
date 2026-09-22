@@ -1,4 +1,4 @@
-# 📱 Vanilla JS QR Code Generator
+# 📱 QR Code Generator
 
 ## Live Demo
 To see the live version of this project, please visit: https://qr-code-generator-vanilla-js.bwillwork.workers.dev
@@ -16,7 +16,7 @@ npm install && npm run start
 
 ## Description
 
-This small project was an experiment that became a useful tool.  Using only vanilla JavaScript, it is a self-contained web tool which allows a user to generate QRCodes of various types.
+This small project was an experiment that became a useful tool.  This project doesn't use a JavaScript Framework like Angular or Next, and it is a self-contained web tool which allows a user to generate QRCodes of various types.
 - **Links**: Here you can generate a QRCode from a URL.
 - **Text**: This feature allows you to generate a QRCode from any free form.
 - **Email**: In this feature, you can create a QRCode to send an email.  
@@ -30,7 +30,7 @@ This tool behaves like a small single page app, and the page has a number of sma
 - **Form Validation**: For phone numbers, links, and emails there is form validation to help prevent any typos.  Also, each feature requires all fields to be populated before a QRCode is generated.
 
 ## Some Dev Notes
-Although all the code written by me for the project is vanilla JavaScript, there are a few tools I used to make the project. The main third party technologies I used are as follows:
+There are a few tools I used to make the project aside from the straight JavaScript in the project. The main third party technologies I used are as follows:
 - **Webpack (and plugins)**: https://webpack.js.org/  
 - **Bootstrap**: https://getbootstrap.com/
 - **QRCode**: https://github.com/soldair/node-qrcode
