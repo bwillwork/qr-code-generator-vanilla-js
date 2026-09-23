@@ -10,7 +10,7 @@ import {disable, enable} from "./ui";
 import domCache from "./cache/domCache";
 //import appCache from "./cache/appCache";
 import {getGeneratorMap} from "./util/featureGeneratorUtil";
-import * as tabs from "./ui/tabs";
+import * as tabs from "./ui/tabsUI";
 
 
 

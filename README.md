@@ -25,7 +25,6 @@ This small project was an experiment that became a useful tool.  This project do
 
 ## Some Features To Note
 This tool behaves like a small single page app, and the page has a number of small features to make the tool easier to work with.
-- **Caching**: The page has local caching for each tab.  This allows a user to switch between tabs without losing their work in one tab, so they can work on multiple QRCodes simultaneously.
 - **Download**: QRCodes can be downloaded as png image files.
 - **Form Validation**: For phone numbers, links, and emails there is form validation to help prevent any typos.  Also, each feature requires all fields to be populated before a QRCode is generated.
 
