@@ -7,7 +7,7 @@ import {Popover} from 'bootstrap';
 
 
 import {allSelectors, tabIdMap, inputSelectors} from "./constants";
-import generator from './qrcodeGenerator';
+import generator from './qrcode/generate';
 import DOM from "./dom";
 import {disable, enable} from "./ui";
 
@@ -22,7 +22,6 @@ import * as tabs from "./ui/tabs";
 
     const generatorMap = getGeneratorMap();
     tabs.initTabs();
-
 
     // Init Link Event Hooks
     const linkInput = domCache.getElementFromSelector(allSelectors.link)[0];

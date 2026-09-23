@@ -2,7 +2,7 @@ import {filled, valid} from "../util/inputUtil";
 import {ifElse, isActiveAndValid} from "../util/buildersUtil";
 import {disableQRCodeControls, enableQRCodeControls} from "../ui/qrcodeUI";
 import {allSelectors, tabIdMap} from "../constants";
-import generator from '../qrcodeGenerator';
+import generator from '../qrcode/generate';
 import {isTabActive} from "../ui";
 
 // Email feature

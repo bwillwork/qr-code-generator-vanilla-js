@@ -3,7 +3,7 @@ import {ifElse, isActiveAndValid} from "../util/buildersUtil";
 import {allSelectors, tabIdMap} from "../constants";
 import {isTabActive} from "../ui";
 import {disableQRCodeControls, enableQRCodeControls} from "../ui/qrcodeUI";
-import generator from "../qrcodeGenerator";
+import generator from "../qrcode/generate";
 
 
 // Text feature
