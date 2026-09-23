@@ -1,6 +1,6 @@
-import {filled, valid} from "../input";
-import {ifElse, isActiveAndValid} from "../builders";
-import {disableQRCodeControls, enableQRCodeControls} from "./qrcodeUI";
+import {filled, valid} from "../util/inputUtil";
+import {ifElse, isActiveAndValid} from "../util/buildersUtil";
+import {disableQRCodeControls, enableQRCodeControls} from "../ui/qrcodeUI";
 import {allSelectors, tabIdMap} from "../constants";
 import generator from '../qrcodeGenerator';
 import {isTabActive} from "../ui";

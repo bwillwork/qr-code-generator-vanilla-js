@@ -7,7 +7,6 @@ import {Popover} from 'bootstrap';
 
 
 import {allSelectors, tabIdMap, inputSelectors} from "./constants";
-import {choose} from './builders';
 import generator from './qrcodeGenerator';
 import DOM from "./dom";
 import {disable, enable} from "./ui";
@@ -16,55 +15,13 @@ import {disable, enable} from "./ui";
 import domCache from "./cache/domCache";
 //import appCache from "./cache/appCache";
 import {getGeneratorMap} from "./util/featureGeneratorUtil";
-import {initTabs} from "./ui/tabs";
+import * as tabs from "./ui/tabs";
 
 
 (function init() {
 
     const generatorMap = getGeneratorMap();
-
-    function condition(key1,key2) {
-        return _.isEqual(key1,key2);
-    }
-
-    const {to,subject,body} = inputSelectors.email;
-    //const to = allSelectors.emailTo;
-    //const subject = allSelectors.emailSubject;
-    //const body = allSelectors.emailBody;
-
-    const {phoneNumbers,message} = inputSelectors.sms;
-    //const phoneNumbers = allSelectors.textMessagePhone;
-    //const message = allSelectors.textMessageBody;
-
-    const {ssid,password} = inputSelectors.wifi;
-    //const ssid = allSelectors.wifiSSID;
-    //const password = allSelectors.wifiPassword;
-
-    /*
-    const chooseFeatureFunc = choose(condition,
-        {key: tabIdMap.link, execFunc: () => generatorMap.link(domCache, allSelectors.link, tabIdMap.link)},
-        {key: tabIdMap.text, execFunc: () => generatorMap.text(domCache, allSelectors.text, tabIdMap.text)},
-        {key: tabIdMap.email, execFunc: () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email)},
-        {key: tabIdMap.textMessage, execFunc: () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage)},
-        {key: tabIdMap.wifi, execFunc: () => generatorMap.wifi(domCache, {ssid,password}, tabIdMap.wifi)},
-    );
-    */
-
-    /*
-    // Create popovers (bootstrap)
-    const popovers = domCache.getElementFromSelector(allSelectors.popovers);
-    popovers.forEach(popover => (new Popover(popover)));
-
-    // Init Tabs
-    const tabEls = domCache.getElementFromSelector(allSelectors.allTabs);
-    tabEls.forEach(elm => {
-        elm.addEventListener('shown.bs.tab', event => {
-            const activeId = event.target.getAttribute('id');
-            chooseFeatureFunc(activeId);
-        });
-    });
-    */
-    initTabs();
+    tabs.initTabs();
 
 
     // Init Link Event Hooks
@@ -77,6 +34,7 @@ import {initTabs} from "./ui/tabs";
     textInput.addEventListener('keyup', () => generatorMap.text(domCache, allSelectors.text, tabIdMap.text));
 
     // Init Email Event Hooks
+    const {to,subject,body} = inputSelectors.email;
     const toInput = domCache.getElementFromSelector(to)[0];
     const subjectInput = domCache.getElementFromSelector(subject)[0];
     const bodyInput = domCache.getElementFromSelector(body)[0];
@@ -85,12 +43,14 @@ import {initTabs} from "./ui/tabs";
     bodyInput.addEventListener('keyup', () => generatorMap.email(domCache, inputSelectors.email, tabIdMap.email));
 
     // Text Message Event Hooks
+    const {phoneNumbers,message} = inputSelectors.sms;
     const phoneNumbersInput = domCache.getElementFromSelector(phoneNumbers)[0];
     const messageInput = domCache.getElementFromSelector(message)[0];
     phoneNumbersInput.addEventListener('keyup', () => generatorMap.sms(domCache, inputSelectors.sms, tabIdMap.textMessage));
     messageInput.addEventListener('keyup', () => generatorMap.sms(domCache, inputSelectors.sms, tabIdMap.textMessage));
 
     // Wifi Event Hooks
+    const {ssid,password} = inputSelectors.wifi;
     const ssidInput = domCache.getElementFromSelector(ssid)[0];
     const passwordInput = domCache.getElementFromSelector(password)[0];
     ssidInput.addEventListener('keyup', () => generatorMap.wifi(domCache, {ssid,password}, tabIdMap.wifi));

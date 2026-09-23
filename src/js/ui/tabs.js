@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import domCache from "../cache/domCache";
 import {allSelectors, tabIdMap, inputSelectors} from "../constants";
-import {choose} from "../builders";
+import {choose} from "../util/buildersUtil";
 import {getGeneratorMap} from "../util/featureGeneratorUtil";
 
 export function initTabs() {
