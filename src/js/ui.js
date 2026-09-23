@@ -18,7 +18,7 @@ export function enable(elm) {
 }
 
 export function isTabActive(elmCache,id) {
-    const tabs = elmCache.getElementFromSelector(allSelectors.allTabs);
+    const tabs = elmCache.getFromSelector(allSelectors.allTabs);
     const activeTab = tabs.find(t => t.classList.contains('active'));
     return _.isEqual(activeTab.id, id);
 }

@@ -31,13 +31,13 @@ function buildCache(selectors) {
 
     // Public
 
-    function getElementFromSelector(selector) {
+    function getFromSelector(selector) {
         const key = getKeyFromSelector(selector);
         return get(key);
     }
 
     return {
-        getElementFromSelector
+        getFromSelector
     };
 
 }

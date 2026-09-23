@@ -19,11 +19,11 @@ export function initTabs() {
     );
 
     // Create popovers (bootstrap)
-    const popovers = domCache.getElementFromSelector(allSelectors.popovers);
+    const popovers = domCache.getFromSelector(allSelectors.popovers);
     popovers.forEach(popover => (new Popover(popover)));
 
     // Init Tabs
-    const tabEls = domCache.getElementFromSelector(allSelectors.allTabs);
+    const tabEls = domCache.getFromSelector(allSelectors.allTabs);
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');

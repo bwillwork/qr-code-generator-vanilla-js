@@ -11,8 +11,8 @@ export function buildTextMessageGeneratorFunc(elmCache) {
 
         const {phoneNumbers,message} = textMessageSelectors;
 
-        const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
-        const messageInput = elmCache.getElementFromSelector(message)[0];
+        const phoneNumbersInput = elmCache.getFromSelector(phoneNumbers)[0];
+        const messageInput = elmCache.getFromSelector(message)[0];
 
         const phoneNumbersValid = filled(phoneNumbersInput) && valid(phoneNumbersInput);
         const messageValid = filled(messageInput);
@@ -26,10 +26,10 @@ export function buildTextMessageGeneratorFunc(elmCache) {
 
             const {phoneNumbers,message} = textMessageSelectors;
 
-            const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
-            const messageInput = elmCache.getElementFromSelector(message)[0];
+            const phoneNumbersInput = elmCache.getFromSelector(phoneNumbers)[0];
+            const messageInput = elmCache.getFromSelector(message)[0];
 
-            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
+            const canvas = elmCache.getFromSelector(allSelectors.canvas)[0];
 
             //Ex: sms:<phone_number>?body=<message_text>
             const messageText = encodeURI(messageInput.value);

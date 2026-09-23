@@ -11,8 +11,8 @@ export function buildWifiGeneratorFunc(elmCache) {
 
         const {ssid,password} = wifiSelectors;
 
-        const ssidInput = elmCache.getElementFromSelector(ssid)[0];
-        const passwordInput = elmCache.getElementFromSelector(password)[0];
+        const ssidInput = elmCache.getFromSelector(ssid)[0];
+        const passwordInput = elmCache.getFromSelector(password)[0];
 
         const phoneNumbersValid = filled(ssidInput);
         const messageValid = filled(passwordInput);
@@ -26,10 +26,10 @@ export function buildWifiGeneratorFunc(elmCache) {
 
             const {ssid,password} = wifiSelectors;
 
-            const ssidInput = elmCache.getElementFromSelector(ssid)[0];
-            const passwordInput = elmCache.getElementFromSelector(password)[0];
+            const ssidInput = elmCache.getFromSelector(ssid)[0];
+            const passwordInput = elmCache.getFromSelector(password)[0];
 
-            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
+            const canvas = elmCache.getFromSelector(allSelectors.canvas)[0];
 
             //Ex: WIFI:T:WPA;S:MyHomeWiFi;P:Password123;;
             const link = `WIFI:T:WPA;S:${ssidInput.value};P:${passwordInput.value};;`;

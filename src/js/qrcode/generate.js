@@ -13,7 +13,7 @@ function generate(canvas, text) {
 }
 
 function produceImageUrl(callbackFunc,finallyFunc) {
-    return QRCode.toDataURL(lastGeneratedText, { errorCorrectionLevel: 'H' })
+    QRCode.toDataURL(lastGeneratedText, { errorCorrectionLevel: 'H' })
         .then(callbackFunc)
         .catch(_error)
         .finally(finallyFunc);

@@ -9,7 +9,7 @@ import {isTabActive} from "../ui";
 
 export function buildLinkGeneratorFunc(elmCache) {
     function linkIsValid(elmCache, linkSelector) {
-        const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
+        const linkInput = elmCache.getFromSelector(linkSelector)[0];
         return filled(linkInput) && valid(linkInput)
     }
     const linkIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.link, isTabActive, linkIsValid);
@@ -17,8 +17,8 @@ export function buildLinkGeneratorFunc(elmCache) {
         (elmCache,linkSelector,tabId) => linkIsValidAndActiveFunc(tabId,linkSelector),
         function(elmCache,linkSelector) {
             enableQRCodeControls(elmCache);
-            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
-            const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
+            const canvas = elmCache.getFromSelector(allSelectors.canvas)[0];
+            const linkInput = elmCache.getFromSelector(linkSelector)[0];
             generator.generate(canvas, linkInput.value);
         },
         function(elmCache) {

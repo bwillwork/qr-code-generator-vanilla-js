@@ -9,7 +9,7 @@ import generator from "../qrcode/generate";
 // Text feature
 export function buildTextGeneratorFunc(elmCache) {
     function isTextValid(elmCache,textSelector) {
-        const textInput = elmCache.getElementFromSelector(textSelector)[0];
+        const textInput = elmCache.getFromSelector(textSelector)[0];
         return filled(textInput);
     }
     const textIsValidAndActiveFunc = isActiveAndValid(elmCache, tabIdMap.text, isTabActive, isTextValid);
@@ -17,8 +17,8 @@ export function buildTextGeneratorFunc(elmCache) {
         (elmCache,textSelector,tabId) => textIsValidAndActiveFunc(tabId,textSelector),
         function(elmCache,textSelector) {
             enableQRCodeControls(elmCache);
-            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
-            const textInput = elmCache.getElementFromSelector(textSelector)[0];
+            const canvas = elmCache.getFromSelector(allSelectors.canvas)[0];
+            const textInput = elmCache.getFromSelector(textSelector)[0];
             generator.generate(canvas, textInput.value);
         },
         function(elmCache) {

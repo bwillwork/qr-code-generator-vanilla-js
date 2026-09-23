@@ -11,9 +11,9 @@ export function buildEmailGeneratorFunc(elmCache) {
 
         const {to,subject,body} = emailSelectors;
 
-        const toInput = elmCache.getElementFromSelector(to)[0];
-        const subjectInput = elmCache.getElementFromSelector(subject)[0];
-        const bodyInput = elmCache.getElementFromSelector(body)[0];
+        const toInput = elmCache.getFromSelector(to)[0];
+        const subjectInput = elmCache.getFromSelector(subject)[0];
+        const bodyInput = elmCache.getFromSelector(body)[0];
 
         const toValid = filled(toInput) && valid(toInput);
         const subjectValid = filled(subjectInput);
@@ -28,11 +28,11 @@ export function buildEmailGeneratorFunc(elmCache) {
 
             const {to,subject,body} = emailSelectors;
 
-            const toInput = elmCache.getElementFromSelector(to)[0];
-            const subjectInput = elmCache.getElementFromSelector(subject)[0];
-            const bodyInput = elmCache.getElementFromSelector(body)[0];
+            const toInput = elmCache.getFromSelector(to)[0];
+            const subjectInput = elmCache.getFromSelector(subject)[0];
+            const bodyInput = elmCache.getFromSelector(body)[0];
 
-            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
+            const canvas = elmCache.getFromSelector(allSelectors.canvas)[0];
 
             //Ex: mailto:test@test.com?subject=this%20is%20a%20subject&body=this%20is%20a%20body
             const subjectText = encodeURI(subjectInput.value);
