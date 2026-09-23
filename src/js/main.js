@@ -5,95 +5,99 @@ import _ from 'lodash';
 // Import only the Bootstrap components we need
 import {Popover} from 'bootstrap';
 
-import {buildElementCache} from "./cache";
-import {selectors, tabIdMap} from "./constants";
+
+import {allSelectors, tabIdMap, inputSelectors} from "./constants";
 import {choose} from './builders';
-import {buildLinkGeneratorFunc} from "./features/link";
-import {buildTextGeneratorFunc} from "./features/text";
-import {buildEmailGeneratorFunc} from "./features/email";
-import {buildTextMessageGeneratorFunc} from "./features/textMessage";
-import {buildWifiGeneratorFunc} from "./features/wifi";
 import generator from './qrcodeGenerator';
 import DOM from "./dom";
 import {disable, enable} from "./ui";
 
+
+import domCache from "./cache/domCache";
+//import appCache from "./cache/appCache";
+import {getGeneratorMap} from "./util/featureGeneratorUtil";
+import {initTabs} from "./ui/tabs";
+
+
 (function init() {
 
-
-    const elmCache = buildElementCache(selectors);
-
-    const linkGeneratorFunc = buildLinkGeneratorFunc(elmCache);
-    const textGeneratorFunc = buildTextGeneratorFunc(elmCache);
-    const emailGeneratorFunc = buildEmailGeneratorFunc(elmCache);
-    const textMessageGeneratorFunc = buildTextMessageGeneratorFunc(elmCache);
-    const wifiGeneratorFunc = buildWifiGeneratorFunc(elmCache);
+    const generatorMap = getGeneratorMap();
 
     function condition(key1,key2) {
         return _.isEqual(key1,key2);
     }
-    const to = selectors.emailTo;
-    const subject = selectors.emailSubject;
-    const body = selectors.emailBody;
 
-    const phoneNumbers = selectors.textMessagePhone;
-    const message = selectors.textMessageBody;
+    const {to,subject,body} = inputSelectors.email;
+    //const to = allSelectors.emailTo;
+    //const subject = allSelectors.emailSubject;
+    //const body = allSelectors.emailBody;
 
-    const ssid = selectors.wifiSSID;
-    const password = selectors.wifiPassword;
+    const {phoneNumbers,message} = inputSelectors.sms;
+    //const phoneNumbers = allSelectors.textMessagePhone;
+    //const message = allSelectors.textMessageBody;
 
-    const chooseGenerationFunc = choose(condition,
-        {key: tabIdMap.link, execFunc: () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link)},
-        {key: tabIdMap.text, execFunc: () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text)},
-        {key: tabIdMap.email, execFunc: () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email)},
-        {key: tabIdMap.textMessage, execFunc: () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage)},
-        {key: tabIdMap.wifi, execFunc: () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi)},
+    const {ssid,password} = inputSelectors.wifi;
+    //const ssid = allSelectors.wifiSSID;
+    //const password = allSelectors.wifiPassword;
+
+    /*
+    const chooseFeatureFunc = choose(condition,
+        {key: tabIdMap.link, execFunc: () => generatorMap.link(domCache, allSelectors.link, tabIdMap.link)},
+        {key: tabIdMap.text, execFunc: () => generatorMap.text(domCache, allSelectors.text, tabIdMap.text)},
+        {key: tabIdMap.email, execFunc: () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email)},
+        {key: tabIdMap.textMessage, execFunc: () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage)},
+        {key: tabIdMap.wifi, execFunc: () => generatorMap.wifi(domCache, {ssid,password}, tabIdMap.wifi)},
     );
+    */
 
-
+    /*
     // Create popovers (bootstrap)
-    const popovers = elmCache.getElementFromSelector(selectors.popovers);
+    const popovers = domCache.getElementFromSelector(allSelectors.popovers);
     popovers.forEach(popover => (new Popover(popover)));
 
     // Init Tabs
-    const tabEls = elmCache.getElementFromSelector(selectors.allTabs);
+    const tabEls = domCache.getElementFromSelector(allSelectors.allTabs);
     tabEls.forEach(elm => {
         elm.addEventListener('shown.bs.tab', event => {
             const activeId = event.target.getAttribute('id');
-            chooseGenerationFunc(activeId);
+            chooseFeatureFunc(activeId);
         });
     });
+    */
+    initTabs();
+
 
     // Init Link Event Hooks
-    const linkInput = elmCache.getElementFromSelector(selectors.link)[0];
-    linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link);
-    linkInput.addEventListener('keyup', () => linkGeneratorFunc(elmCache, selectors.link, tabIdMap.link));
+    const linkInput = domCache.getElementFromSelector(allSelectors.link)[0];
+    generatorMap.link(domCache, allSelectors.link, tabIdMap.link);
+    linkInput.addEventListener('keyup', () => generatorMap.link(domCache, allSelectors.link, tabIdMap.link));
 
     // Init Text Event Hooks
-    const textInput = elmCache.getElementFromSelector(selectors.text)[0];
-    textInput.addEventListener('keyup', () => textGeneratorFunc(elmCache, selectors.text, tabIdMap.text));
+    const textInput = domCache.getElementFromSelector(allSelectors.text)[0];
+    textInput.addEventListener('keyup', () => generatorMap.text(domCache, allSelectors.text, tabIdMap.text));
 
     // Init Email Event Hooks
-    const toInput = elmCache.getElementFromSelector(to)[0];
-    const subjectInput = elmCache.getElementFromSelector(subject)[0];
-    const bodyInput = elmCache.getElementFromSelector(body)[0];
-    toInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
-    subjectInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
-    bodyInput.addEventListener('keyup', () => emailGeneratorFunc(elmCache, {to,subject,body}, tabIdMap.email));
+    const toInput = domCache.getElementFromSelector(to)[0];
+    const subjectInput = domCache.getElementFromSelector(subject)[0];
+    const bodyInput = domCache.getElementFromSelector(body)[0];
+    toInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
+    subjectInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
+    bodyInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
 
     // Text Message Event Hooks
-    const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
-    const messageInput = elmCache.getElementFromSelector(message)[0];
-    phoneNumbersInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
-    messageInput.addEventListener('keyup', () => textMessageGeneratorFunc(elmCache, {phoneNumbers,message}, tabIdMap.textMessage));
+    const phoneNumbersInput = domCache.getElementFromSelector(phoneNumbers)[0];
+    const messageInput = domCache.getElementFromSelector(message)[0];
+    phoneNumbersInput.addEventListener('keyup', () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage));
+    messageInput.addEventListener('keyup', () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage));
 
     // Wifi Event Hooks
-    const ssidInput = elmCache.getElementFromSelector(ssid)[0];
-    const passwordInput = elmCache.getElementFromSelector(password)[0];
-    ssidInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
-    passwordInput.addEventListener('keyup', () => wifiGeneratorFunc(elmCache, {ssid,password}, tabIdMap.wifi));
+    const ssidInput = domCache.getElementFromSelector(ssid)[0];
+    const passwordInput = domCache.getElementFromSelector(password)[0];
+    ssidInput.addEventListener('keyup', () => generatorMap.wifi(domCache, {ssid,password}, tabIdMap.wifi));
+    passwordInput.addEventListener('keyup', () => generatorMap.wifi(domCache, {ssid,password}, tabIdMap.wifi));
 
     // Download Button
-    const downloadBtn = elmCache.getElementFromSelector(selectors.downloadBtn)[0];
+    const downloadBtn = domCache.getElementFromSelector(allSelectors.downloadBtn)[0];
     downloadBtn.addEventListener('click',function() {
         disable(downloadBtn);
         generator.produceImageUrl((url => {

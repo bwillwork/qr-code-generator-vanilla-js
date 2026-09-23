@@ -1,7 +1,7 @@
 import {filled, valid} from "../input";
 import {ifElse, isActiveAndValid} from "../builders";
 import {disableQRCodeControls, enableQRCodeControls} from "./qrcodeUI";
-import {selectors, tabIdMap} from "../constants";
+import {allSelectors, tabIdMap} from "../constants";
 import generator from '../qrcodeGenerator';
 import {isTabActive} from "../ui";
 
@@ -29,7 +29,7 @@ export function buildTextMessageGeneratorFunc(elmCache) {
             const phoneNumbersInput = elmCache.getElementFromSelector(phoneNumbers)[0];
             const messageInput = elmCache.getElementFromSelector(message)[0];
 
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
 
             //Ex: sms:<phone_number>?body=<message_text>
             const messageText = encodeURI(messageInput.value);

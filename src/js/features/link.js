@@ -1,7 +1,7 @@
 import {filled, valid} from "../input";
 import {ifElse, isActiveAndValid} from "../builders";
 import {disableQRCodeControls, enableQRCodeControls} from "./qrcodeUI";
-import {selectors, tabIdMap} from "../constants";
+import {allSelectors, tabIdMap} from "../constants";
 import generator from '../qrcodeGenerator';
 import {isTabActive} from "../ui";
 
@@ -17,7 +17,7 @@ export function buildLinkGeneratorFunc(elmCache) {
         (elmCache,linkSelector,tabId) => linkIsValidAndActiveFunc(tabId,linkSelector),
         function(elmCache,linkSelector) {
             enableQRCodeControls(elmCache);
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
             const linkInput = elmCache.getElementFromSelector(linkSelector)[0];
             generator.generate(canvas, linkInput.value);
         },

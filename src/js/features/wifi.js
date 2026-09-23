@@ -1,7 +1,7 @@
 import {filled, valid} from "../input";
 import {ifElse, isActiveAndValid} from "../builders";
 import {disableQRCodeControls, enableQRCodeControls} from "./qrcodeUI";
-import {selectors, tabIdMap} from "../constants";
+import {allSelectors, tabIdMap} from "../constants";
 import generator from '../qrcodeGenerator';
 import {isTabActive} from "../ui";
 
@@ -29,7 +29,7 @@ export function buildWifiGeneratorFunc(elmCache) {
             const ssidInput = elmCache.getElementFromSelector(ssid)[0];
             const passwordInput = elmCache.getElementFromSelector(password)[0];
 
-            const canvas = elmCache.getElementFromSelector(selectors.canvas)[0];
+            const canvas = elmCache.getElementFromSelector(allSelectors.canvas)[0];
 
             //Ex: WIFI:T:WPA;S:MyHomeWiFi;P:Password123;;
             const link = `WIFI:T:WPA;S:${ssidInput.value};P:${passwordInput.value};;`;

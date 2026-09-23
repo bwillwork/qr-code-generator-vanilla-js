@@ -7,14 +7,7 @@ export const tabIdMap = {
     wifi: 'wifi-tab',
 };
 
-export const tabKeys = Object.keys(tabIdMap);
-export const tabIds = Object.values(tabIdMap);
-
-export function selectorFromId(id) {
-    return `#${id}`;
-}
-
-export const selectors = {
+export const allSelectors = {
     /*
         --- Tabs ---
      */
@@ -52,4 +45,22 @@ export const selectors = {
     noDataMessage: `#no-data-message`,
     downloadBtn: `#download-btn`,
 
+};
+
+export const inputSelectors = {
+    link: allSelectors.link,
+    text: allSelectors.text,
+    email: {
+        to: allSelectors.emailTo,
+        subject: allSelectors.emailSubject,
+        body: allSelectors.emailBody
+    },
+    sms: {
+        phoneNumbers: allSelectors.textMessagePhone,
+        message: allSelectors.textMessageBody
+    },
+    wifi: {
+        ssid: allSelectors.wifiSSID,
+        password: allSelectors.wifiPassword
+    }
 };

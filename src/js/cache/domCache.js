@@ -1,7 +1,7 @@
-import _ from "lodash";
-import DOM from "./dom";
+import DOM from "../dom";
+import {allSelectors, tabIdMap} from "../constants";
 
-export function buildElementCache(selectors) {
+function buildCache(selectors) {
 
     // Init
     const initData = {
@@ -41,3 +41,6 @@ export function buildElementCache(selectors) {
     };
 
 }
+
+const elmCache = buildCache(allSelectors);
+export default elmCache;
