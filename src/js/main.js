@@ -80,15 +80,15 @@ import {initTabs} from "./ui/tabs";
     const toInput = domCache.getElementFromSelector(to)[0];
     const subjectInput = domCache.getElementFromSelector(subject)[0];
     const bodyInput = domCache.getElementFromSelector(body)[0];
-    toInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
-    subjectInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
-    bodyInput.addEventListener('keyup', () => generatorMap.email(domCache, {to,subject,body}, tabIdMap.email));
+    toInput.addEventListener('keyup', () => generatorMap.email(domCache, inputSelectors.email, tabIdMap.email));
+    subjectInput.addEventListener('keyup', () => generatorMap.email(domCache, inputSelectors.email, tabIdMap.email));
+    bodyInput.addEventListener('keyup', () => generatorMap.email(domCache, inputSelectors.email, tabIdMap.email));
 
     // Text Message Event Hooks
     const phoneNumbersInput = domCache.getElementFromSelector(phoneNumbers)[0];
     const messageInput = domCache.getElementFromSelector(message)[0];
-    phoneNumbersInput.addEventListener('keyup', () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage));
-    messageInput.addEventListener('keyup', () => generatorMap.sms(domCache, {phoneNumbers,message}, tabIdMap.textMessage));
+    phoneNumbersInput.addEventListener('keyup', () => generatorMap.sms(domCache, inputSelectors.sms, tabIdMap.textMessage));
+    messageInput.addEventListener('keyup', () => generatorMap.sms(domCache, inputSelectors.sms, tabIdMap.textMessage));
 
     // Wifi Event Hooks
     const ssidInput = domCache.getElementFromSelector(ssid)[0];
