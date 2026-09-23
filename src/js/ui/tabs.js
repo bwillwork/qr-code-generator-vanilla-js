@@ -4,6 +4,8 @@ import {allSelectors, tabIdMap, inputSelectors} from "../constants";
 import {choose} from "../util/buildersUtil";
 import {getGeneratorMap} from "../util/featureGeneratorUtil";
 
+import {Popover} from 'bootstrap';// Import only the Bootstrap components we need
+
 export function initTabs() {
 
     const generatorMap = getGeneratorMap();
